@@ -1,0 +1,16 @@
+address: {{ filebrowser_listen }}
+port: {{ filebrowser_port }}
+baseurl: {{ filebrowser_baseurl }}
+cert: {{ filebrowser_cert }}
+key: {{ filebrowser_key }}
+
+database: {{ filebrowser_database }}
+{% if filebrowser_log %}log: {{ filebrowser_log }}{% endif %}
+{% if filebrowser_noauth %}
+noauth: {{ filebrowser_noauth }}
+{% else%}
+username: {{ filebrowser_username }}
+password: {{ filebrowser_password }}
+{% endif %}
+
+root: {{ filebrowser_root }}

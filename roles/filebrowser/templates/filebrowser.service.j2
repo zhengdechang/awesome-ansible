@@ -1,0 +1,11 @@
+[Unit]
+Description=Selfhosted file browser with web UI
+After=network.target
+
+[Service]
+User={{ filebrowser_owner }}
+Group={{ filebrowser_group }}
+ExecStart={{ filebrowser_install_dir }}/filebrowser -c {{ filebrowser_config }}
+
+[Install]
+WantedBy=multi-user.target

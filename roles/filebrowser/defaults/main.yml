@@ -1,0 +1,38 @@
+---
+# Linux user that run filebrowser
+filebrowser_owner:
+# Linux group that run filebrowser
+filebrowser_group:
+# Where binary files will be installed
+filebrowser_install_dir: /opt/filebrowser
+
+# Path to the config file (JSON or YAML file)
+filebrowser_config: /opt/filebrowser/config.yml
+# Host address to listen, `0.0.0.0` for all addresses
+filebrowser_listen: "0.0.0.0"
+# Host port to listen
+filebrowser_port: 8173
+# Base URL to access filebrowser (example: `/browser` if you want to access with an URL like https://my-server/browser)
+filebrowser_baseurl: 
+# Path to files that will be shown on the file browser
+filebrowser_root:
+# TLS certificate
+filebrowser_cert: 
+# TLS key
+filebrowser_key:
+# bolt DB database path (check if the user can read and write on the folder)
+filebrowser_database: /opt/filebrowser/data.db
+
+# If we should log n the console
+filebrowser_log: false
+# Disable auth
+filebrowser_noauth: false
+# Default user when installed
+filebrowser_username: admin
+# BCrypt hash of the password, default is admin
+filebrowser_password: "$2a$12$vTy9CAzZ.yZdtPd79hIB7.OAXO1ny20J9lVZN2dQx3B4WeHX8ta3u"
+
+# default archive extension is .tar.gz, for windows it is .zip
+filebrowser_archive_ext: .tar.gz
+# the executable does not have extension on unix systems, for windows it is .exe
+filebrowser_executable_ext:

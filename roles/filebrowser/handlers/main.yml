@@ -1,0 +1,4 @@
+---
+# handlers file for roles/ansible_filebrowser
+- name: reload systemctl
+  command: systemctl daemon-reload

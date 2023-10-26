@@ -1,0 +1,12 @@
+[ansible_test]
+127.0.0.1
+
+[browser_server]
+127.0.0.1
+
+[all:vars]
+ansible_connection=ssh
+ansible_port=22
+ansible_ssh_user=ansible
+ansible_ssh_pass=ansible
+ansible_become_pass=ansible
