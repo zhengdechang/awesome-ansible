@@ -1,0 +1,138 @@
+---
+# tasks file for roles/filebrowser
+
+# - name: Delete existing archive
+#   file:
+#     state: absent
+#     path: /tmp/filebrowser-latest.tgz
+
+- name: 'Check mandatory variables are defined'
+  assert:
+    that:
+      - filebrowser_owner is defined
+      - filebrowser_group is defined
+      - filebrowser_root is defined
+
+- name: Stop service filebrowser
+  block:
+    - name: Attempt to stop the service
+      ansible.builtin.service:
+        name: filebrowser
+        state: stopped
+    - name: Enable service
+      service:
+        name: filebrowser
+        enabled: no
+  rescue:
+    - name: Get the list of services
+      service_facts:
+    - name: Verify that filebrowser is not installed
+      assert:
+        that:
+          - "'filebrowser.service' not in services"
+
+- name: Creating filebrowser binary directory
+  file:
+    state: directory
+    path: "{{ filebrowser_install_dir }}"
+    owner: "{{ filebrowser_owner }}"
+    group: "{{ filebrowser_group }}"
+
+- name: Getting architecture (1)
+  shell:
+    cmd: uname -m
+  register: a
+- name: Getting architecture (2)
+  set_fact:
+    arch: "{{a.stdout}}"
+- name: Correcting arch for AARCH64
+  set_fact:
+    arch: arm64
+  when: "'aarch64' in arch"
+- name: Correcting arch for ARMv5
+  set_fact:
+    arch: armv5
+  when: "'armv5' in arch"
+- name: Correcting arch for ARMv6
+  set_fact:
+    arch: armv6
+  when: "'armv6' in arch"
+- name: Correcting arch for ARMv7
+  set_fact:
+    arch: armv7
+  when: "'armv7' in arch"
+- name: Correcting arch for AMD64
+  set_fact:
+    arch: amd64
+  when: "'64' in arch and arch != 'arm64'"
+- name: Correcting arch for x86
+  set_fact:
+    arch: 386
+  when: "'86' in arch"
+- name: Getting OS (1)
+  shell:
+    cmd: uname | tr '[:upper:]' '[:lower:]'
+  register: o
+- name: Getting OS (2)
+  set_fact:
+    os: "{{o.stdout}}"
+
+- name: Switching archve format if installed on Windows
+  set_fact:
+    filebrowser_archive_ext: .zip
+    filebrowser_executable_ext: .exe
+  when: "'win' in os or 'msys' in os"
+
+- name: Getting latest release information
+  uri:
+    url: https://api.github.com/repos/filebrowser/filebrowser/releases/latest
+    return_content: true
+    body_format: json
+  register: json_reponse
+
+- name: Get URL
+  set_fact:
+    download_link: "https://github.com/filebrowser/filebrowser/releases/download/{{ json_reponse.json.tag_name }}/{{os}}-{{arch}}-filebrowser{{ filebrowser_archive_ext }}"
+
+- name: Show download URL
+  debug:
+    msg: "URL: {{download_link}}"
+
+- name: Extracting archive
+  unarchive:
+    src: "{{ download_link }}"
+    dest: "{{ filebrowser_install_dir }}"
+    remote_src: true
+    owner: "{{ filebrowser_owner }}"
+    group: "{{ filebrowser_group }}"
+
+- name: Setting app as executable
+  ansible.builtin.file:
+    path: "{{ filebrowser_install_dir }}/filebrowser"
+    mode: u+x,g+x,o+x
+
+- name: Copying config file
+  ansible.builtin.template:
+    src: config.yml.j2
+    dest: "{{ filebrowser_config }}"
+    owner: "{{ filebrowser_owner }}"
+    group: "{{ filebrowser_group }}"
+    mode: "0644"
+- name: Copying service file
+  ansible.builtin.template:
+    src: filebrowser.service.j2
+    dest: /lib/systemd/system/filebrowser.service
+    owner: root
+    group: root
+    mode: "0644"
+  notify:
+    - reload systemctl
+
+- name: Enable service
+  service:
+    name: filebrowser
+    enabled: yes
+- name: Start service
+  service:
+    name: filebrowser
+    state: started

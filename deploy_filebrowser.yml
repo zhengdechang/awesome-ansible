@@ -1,0 +1,15 @@
+---
+- hosts: browser_server
+  gather_facts: true
+  become: true
+  become_user: root
+
+  vars:
+    filebrowser_owner: root
+    filebrowser_group: root
+    filebrowser_listen: "0.0.0.0"
+    filebrowser_port: 8080
+    filebrowser_root: /mnt/
+  tasks:
+    - import_role:
+        name: "filebrowser"
