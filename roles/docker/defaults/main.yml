@@ -1,0 +1,5 @@
+---
+# Docker Compose options.
+docker_pip_version: 6.0.0
+docker_compose_pip_version: 1.29.2
+docker_users: []

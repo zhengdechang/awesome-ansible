@@ -1,0 +1,9 @@
+---
+skip_list:
+  - 'yaml'
+  - 'role-name'
+  - 'internal-error'
+  - 'no-handler'
+
+exclude_paths:
+  - meta/main.yml
