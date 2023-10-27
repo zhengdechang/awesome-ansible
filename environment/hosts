@@ -8,11 +8,11 @@
 127.0.0.1
 
 [jenkins_server]
-10.10.99.111
+127.0.0.1
 
 [all:vars]
 ansible_connection=ssh
 ansible_port=22
-ansible_ssh_user=jancsitechweb
-ansible_ssh_pass=jancsitechweb
-ansible_become_pass=jancsitechweb
+ansible_ssh_user=ansible
+ansible_ssh_pass=ansible
+ansible_become_pass=ansible
