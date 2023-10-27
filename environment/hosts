@@ -10,6 +10,9 @@
 [jenkins_server]
 127.0.0.1
 
+[go_server]
+127.0.0.1
+
 [all:vars]
 ansible_connection=ssh
 ansible_port=22
