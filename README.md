@@ -23,20 +23,10 @@
 
 ## 实现的 role 如下
 
-| role              | example command                                         | Comment                                                                                                                |
-| ----------------- | ------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------- |
-<<<<<<< Updated upstream
-| Docker            | ansible-playbook -i environment/ setup_docker.yml       | 安装 docker 和 docker-compose                                                                                          |
-| Filebrowser       | ansible-playbook -i environment/ deploy_filebrowser.yml | 部署 filebrowser， FileBrowser 是一个基于 Web 的文件管理器，它允许用户通过网络浏览、创建、编辑、上传、下载和删除文件。 |
-| Java        |       ansible-playbook -i environment/ setup_java.yml         | 安装 java 环境。                                                                                                       |
-| Jenkins           | ansible-playbook -i environment/ setup_jenkins.yml      | 部署 jenkins。 Jenkins是一个开源的、基于Java开发的持续集成工具，用于自动化各种任务，包括构建、测试和部署软件项目，从而实现持续集成和持续交付。                                                                                                        |
-=======
-| docker roles      | ansible-playbook -i environment/ setup_docker.yml       | 安装 docker 和 docker-compose                                                                                          |
-| filebrowser roles | ansible-playbook -i environment/ deploy_filebrowser.yml | 部署 filebrowser， FileBrowser 是一个基于 Web 的文件管理器，它允许用户通过网络浏览、创建、编辑、上传、下载和删除文件。 |
-| java roles        | ansible-playbook -i environment/ setup_java.yml         | 安装 java 环境。                                                                                                       |
-| jenkins roles     | ansible-playbook -i environment/ setup_jenkins.yml      | 部署 jenkins。 Jenkins是一个开源的、基于Java开发的持续集成工具，用于自动化各种任务，包括构建、测试和部署软件项目，从而实现持续集成和持续交付。                                                                                                        |
-| jenkins roles     | ansible-playbook -i environment/ setup_jenkins.yml      | 部署 jenkins。 Jenkins是一个开源的、基于Java开发的持续集成工具，用于自动化各种任务，包括构建、测试和部署软件项目，从而实现持续集成和持续交付。                                                                                                        |
-
-
-
->>>>>>> Stashed changes
+| role        | example command                                         | Comment                                                                           |
+|-------------|---------------------------------------------------------|-----------------------------------------------------------------------------------|
+| Docker      | ansible-playbook -i environment/ setup_docker.yml       | 安装 docker 和 docker-compose                                                        |
+| Filebrowser | ansible-playbook -i environment/ deploy_filebrowser.yml | 部署 filebrowser， FileBrowser 是一个基于 Web 的文件管理器，它允许用户通过网络浏览、创建、编辑、上传、下载和删除文件。        |
+| Java        | ansible-playbook -i environment/ setup_java.yml         | 安装 java 环境。                                                                       |
+| Jenkins     | ansible-playbook -i environment/ setup_jenkins.yml      | 部署 jenkins。 Jenkins是一个开源的、基于Java开发的持续集成工具，用于自动化各种任务，包括构建、测试和部署软件项目，从而实现持续集成和持续交付。 |
+| GoLand      | ansible-playbook -i environment/ setup_go.yml           | 安装 GoLand  。                                                                      |
