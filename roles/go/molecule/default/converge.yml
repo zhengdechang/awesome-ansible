@@ -1,0 +1,20 @@
+---
+- name: Converge
+  hosts: all
+  become: true
+
+  pre_tasks:
+    - name: Update apt cache.
+      apt: update_cache=yes cache_valid_time=600
+      when: ansible_os_family == 'Debian'
+      changed_when: false
+
+  roles:
+    - role: shaneholloman.go
+
+  tasks:
+    - name: Verify that Go is installed and available in the $PATH.
+      command: go version
+      environment:
+        PATH: /usr/local/go/bin:{{ ansible_env.PATH }}
+      changed_when: false
