@@ -2,6 +2,12 @@
 127.0.0.1
 
 [docker_server]
+127.0.0.1
+
+[java_server]
+127.0.0.1
+
+[jenkins_server]
 10.10.99.111
 
 [all:vars]
