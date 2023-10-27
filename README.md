@@ -3,17 +3,23 @@
 使用 Ansible role ，一键部署 linux/ubuntu 系统常见服务及常见应用
 
 ## 使用
-执行部署/安装前，请修改environment/hosts中的主机IP和账号密码，保证能够连接上主机，比如
-```
-[jenkins_server]
-127.0.0.1
-[jenkins_server:vars]
-ansible_ssh_user=devin
-ansible_ssh_pass=devin  
-ansible_become_pass=devin
-```
+- 执行部署/安装前，请修改environment/hosts中的主机IP和账号密码，保证能够连接上主机，比如
+  ```
+  [jenkins_server]
+  127.0.0.1
+  [jenkins_server:vars]
+  ansible_ssh_user=devin
+  ansible_ssh_pass=devin  
+  ansible_become_pass=devin
+  ```
+  
+  注意：若主机中的账号密码都相同，则只需修改[all:vars]中的变量
 
-注意：若主机中的账号密码都相同，则只需修改[all:vars]中的变量
+- 在下列表格中找到需要安装或者部署的软件，执行example command列中的命令，比如：
+  
+  ```
+  ansible-playbook -i environment/ setup_docker.yml 
+  ```
 
 ## 实现的 role 如下
 
