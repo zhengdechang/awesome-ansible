@@ -30,6 +30,7 @@
 | Java        | ansible-playbook -i environment/ setup_java.yml         | 安装 java 环境。                                                                       |
 | Jenkins     | ansible-playbook -i environment/ setup_jenkins.yml      | 部署 jenkins。 Jenkins是一个开源的、基于Java开发的持续集成工具，用于自动化各种任务，包括构建、测试和部署软件项目，从而实现持续集成和持续交付。 |
 | GoLand      | ansible-playbook -i environment/ setup_go.yml           | 安装 GoLand  。                                                                      |
+| Mysql       | ansible-playbook -i environment/ setup_mysql.yml        | 安装 Mysql  。                                                                       |
 
 
 ## 贡献
