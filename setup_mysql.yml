@@ -1,0 +1,21 @@
+---
+- hosts: mysql_server
+  gather_facts: true
+  become: true
+  become_user:
+  vars:
+    mysql_databases:
+      - name: ansible_db
+        encoding: utf8
+        collation: utf8_bin
+    mysql_users:
+      - name: ansible
+        password: ansible
+        priv: "ansible_db.*:ALL"
+        update_password: on_create
+  tasks:
+    - name: setup mysql software
+      include_role:
+        name: "{{ item }}"
+      loop:
+        - mysql
