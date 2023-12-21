@@ -1,0 +1,45 @@
+#---
+#- name: Use /dev/urandom for Java
+#  replace:
+#    dest: /usr/lib/jvm/java-{{ keycloak_java_version }}-openjdk-amd64/jre/lib/security/java.security
+#    regexp: '^securerandom.source.*'
+#    replace: 'securerandom.source=file:/dev/./urandom'
+#  become: yes
+#  when: ansible_os_family == "Debian"
+
+- name: Use /dev/urandom for Java
+  replace:
+    dest: /usr/lib/jvm/jre/lib/security/java.security
+    regexp: '^securerandom.source.*'
+    replace: 'securerandom.source=file:/dev/./urandom'
+  become: yes
+  when:
+    - ansible_os_family == "RedHat"
+    - keycloak_java_version == "1.8.0"
+
+- name: Use /dev/urandom for Java
+  replace:
+    dest: /usr/lib/jvm/jre/conf/security/java.security
+    regexp: '^securerandom.source.*'
+    replace: 'securerandom.source=file:/dev/./urandom'
+  become: yes
+  when:
+    - ansible_os_family == "RedHat"
+    - keycloak_java_version != "1.8.0"
+
+- name: Copy keycloak service
+  template:
+    src: keycloak.service.j2
+    dest: /etc/systemd/system/keycloak.service
+    owner: root
+    group: root
+  become: yes
+  notify:
+    - Reload systemd
+
+- name: Enable and start keycloak service
+  service:
+    name: keycloak
+    enabled: yes
+    state: started
+  become: yes

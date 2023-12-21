@@ -1,0 +1,12 @@
+---
+keycloak_admin_username: admin
+keycloak_download_url: "https://downloads.jboss.org/keycloak/{{ keycloak_version }}/keycloak-{{ keycloak_version }}.tar.gz"
+keycloak_group: keycloak
+keycloak_home: /opt/keycloak
+keycloak_java_version: 11
+keycloak_user: keycloak
+# Get latest version from here: https://www.keycloak.org/downloads.html
+keycloak_version: 11.0.2
+# Override this to define a proxy as described here:
+# https://docs.ansible.com/ansible/latest/user_guide/playbooks_environment.html#setting-the-remote-environment
+proxy_env: {}

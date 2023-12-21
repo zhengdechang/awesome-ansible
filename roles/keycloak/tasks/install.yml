@@ -1,0 +1,70 @@
+---
+- name: Install OpenJDK Java {{ keycloak_java_version }} JDK
+  apt:
+    name: openjdk-{{ keycloak_java_version }}-jdk
+    state: present
+  become: yes
+  when: ansible_os_family == "Debian"
+
+- name: Install OpenJDK Java {{ keycloak_java_version }} JDK
+  yum:
+    name: java-{{ keycloak_java_version }}-openjdk-devel
+    state: present
+  become: yes
+  when: ansible_os_family == "RedHat"
+
+- name: Create keycloak group
+  group:
+    name: "{{ keycloak_group }}"
+    state: present
+  become: yes
+
+- name: Create keycloak user
+  user:
+    name: "{{ keycloak_user }}"
+    state: present
+    group: "{{ keycloak_group }}"
+    home: "{{ keycloak_home }}"
+  become: yes
+
+- name: Create keycloak home directory
+  file:
+    path: "{{ keycloak_home }}"
+    owner: "{{ keycloak_user }}"
+    group: "{{ keycloak_group }}"
+    state: directory
+    mode: 0700
+  become: yes
+
+- name: Download keycloak
+  get_url:
+    url: "{{ keycloak_download_url }}"
+    dest: /tmp
+    timeout: 30
+  environment: "{{ proxy_env }}"
+  become: yes
+  become_user: "{{ keycloak_user }}"
+
+- name: Extract keycloak
+  unarchive:
+    src: /tmp/keycloak-{{ keycloak_version }}.tar.gz
+    dest: "{{ keycloak_home }}"
+    remote_src: yes
+  become: yes
+  become_user: "{{ keycloak_user }}"
+
+- name: Create symlink for current version
+  file:
+    src: "{{ keycloak_home }}/keycloak-{{ keycloak_version }}"
+    dest: "{{ keycloak_home }}/current"
+    owner: "{{ keycloak_user }}"
+    group: "{{ keycloak_group }}"
+    state: link
+  become: yes
+
+# This isn't idempotent but if we only run it once at install time it should be fine
+- name: Add admin user
+  shell: "{{ keycloak_home }}/current/bin/add-user-keycloak.sh -r master -u {{ keycloak_admin_username }} -p {{ keycloak_admin_password }}"
+  become: yes
+  become_user: "{{ keycloak_user }}"
+  notify: Restart keycloak
