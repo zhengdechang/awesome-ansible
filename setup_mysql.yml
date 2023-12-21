@@ -5,17 +5,28 @@
   become_user:
   vars:
     mysql_databases:
-      - name: ansible_db
+      - name: chemex
+        encoding: utf8
+        collation: utf8_bin
+      - name: test
         encoding: utf8
         collation: utf8_bin
     mysql_users:
-      - name: ansible
-        password: ansible
-        priv: "ansible_db.*:ALL"
+      - name: chemex
+        password: password
+        priv: "chemex.*:ALL"
+        update_password: on_create
+      - name: test
+        password: password
+        priv: "test.*:ALL"
+        host: "%"
         update_password: on_create
   tasks:
     - name: setup mysql software
       include_role:
         name: "{{ item }}"
+      vars:
+        mysql_bind_address: "0.0.0.0"
+        mysql_root_password: "password"
       loop:
         - mysql

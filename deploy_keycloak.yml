@@ -1,0 +1,21 @@
+---
+- hosts: keycloak_server
+  gather_facts: true
+  become: true
+  become_user:
+  pre_tasks:
+    - name: Install required packaged
+      apt:
+        name: "{{ item }}"
+        state: present
+      with_items:
+        - acl
+        - python3-pip
+  tasks:
+    - name: setup mysql software
+      include_role:
+        name: "{{ item }}"
+      vars:
+        keycloak_admin_password: dechang
+      loop:
+        - keycloak
