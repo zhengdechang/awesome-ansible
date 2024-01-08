@@ -22,6 +22,6 @@
 [all:vars]
 ansible_connection=ssh
 ansible_port=22
-ansible_ssh_user=dechang
-ansible_ssh_pass=dechang
-ansible_become_pass=dechang
+ansible_ssh_user=devin
+ansible_ssh_pass=devin
+ansible_become_pass=devin

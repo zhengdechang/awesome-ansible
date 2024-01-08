@@ -1,5 +1,5 @@
 ---
-- hosts: localhost   #go_server
+- hosts: go_server
   gather_facts: true
   vars:
     go_version: "1.17.3"
