@@ -15,6 +15,14 @@
       - github-branch-source
       - workflow-job
       - sshd
+      - ant
+      - ws-cleanup
+      - build-timeout
+      - email-ext
+      - pipeline-stage-view
+      - ssh-slaves
+      - timestamper
+      - nodejs
 
   tasks:
     - name: Import java and jenkins roles
