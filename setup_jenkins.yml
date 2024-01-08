@@ -8,6 +8,14 @@
     jenkins_http_port: 8999
     jenkins_admin_username: admin
     jenkins_admin_password: admin
+    jenkins_plugins:
+      - git
+      - ansible
+      - localization-zh-cn
+      - github-branch-source
+      - workflow-job
+      - sshd
+
   tasks:
     - name: Import java and jenkins roles
       include_role:
