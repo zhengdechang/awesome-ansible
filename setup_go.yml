@@ -1,8 +1,6 @@
 ---
 - hosts: localhost   #go_server
   gather_facts: true
-  become: true
-  become_user:
   vars:
     go_version: "1.17.3"
     go_platform: linux
