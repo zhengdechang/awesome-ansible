@@ -1,0 +1,25 @@
+#!/bin/bash
+
+# 设置 Git 仓库的目录
+REPO_DIR={{ repo_dir }} 
+# 进入 Git 仓库目录
+cd "$REPO_DIR"
+
+# 检查是否有变更（新文件、修改、删除）
+if git status | grep -q "nothing to commit, working tree clean"; then
+    echo "No changes to commit."
+else
+    # 如果有变更，配置 Git 用户信息（如果全局未配置）
+    git config user.email "bot@gmail.com"
+    git config user.name "bot"
+
+    # 添加所有变更到暂存区
+    git add .
+
+    # 提交变更
+    git commit -m "Automatic commit on $(date)"
+
+    # 推送到远程仓库
+    git push origin main
+    # 如果你的默认分支不是 main，请替换为你的默认分支名称
+fi

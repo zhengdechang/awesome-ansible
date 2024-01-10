@@ -55,7 +55,7 @@
     state: restarted
     daemon_reload: true
   when: jenkins_init_prefix.changed
-  tags: ['skip_ansible_lint']
+  tags: ["skip_ansible_lint"]
 
 - name: Create custom init scripts directory.
   file:
@@ -87,4 +87,4 @@
     or (jenkins_http_config is defined and jenkins_http_config.changed)
     or (jenkins_home_config is defined and jenkins_home_config.changed)
     or (jenkins_proxy_config is defined and jenkins_proxy_config.changed)
-  tags: ['skip_ansible_lint']
+  tags: ["skip_ansible_lint"]

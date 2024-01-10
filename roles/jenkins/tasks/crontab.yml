@@ -1,0 +1,46 @@
+---
+- name: Ensure dependencies are installed.
+  apt:
+    name:
+      - jq
+    state: present
+
+- name: Set fact for the templates directory
+  set_fact:
+    templates_dir: "/srv/templates"
+
+- name: Ensure repo directory exists
+  file:
+    path: "{{ templates_dir }}"
+    state: directory
+    owner: "{{ ansible_ssh_user }}"
+
+- name: Deploy download_job.sh from template
+  template:
+    src: download_job.sh.j2
+    dest: "{{ templates_dir }}/download_job.sh"
+    mode: "0755"
+    owner: "{{ ansible_ssh_user }}"
+
+- name: Deploy git_auto_commit.sh from template
+  template:
+    src: git_auto_commit.sh.j2
+    dest: "{{ templates_dir }}/git_auto_commit.sh"
+    mode: "0755"
+    owner: "{{ ansible_ssh_user }}"
+
+- name: Schedule download_job.sh to run at midnight
+  cron:
+    name: "Download Job"
+    job: "{{ templates_dir }}/download_job.sh > {{ templates_dir }}/download_job.log 2>&1"
+    minute: "0"
+    hour: "0"
+    user: "{{ ansible_ssh_user }}"
+
+- name: Schedule git_auto_commit.sh to run after download_job.sh
+  cron:
+    name: "Git Auto Commit"
+    job: "{{ templates_dir }}/git_auto_commit.sh > {{ templates_dir }}/git_auto_commit.log 2>&1"
+    minute: "5"
+    hour: "0"
+    user: "{{ ansible_ssh_user }}"

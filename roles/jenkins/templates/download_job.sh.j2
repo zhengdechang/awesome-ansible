@@ -1,0 +1,44 @@
+#!/bin/bash
+
+# Jenkins 服务器 URL
+JENKINS_URL="http://127.0.0.1:{{ jenkins_http_port }}"
+
+# Jenkins 用户名和令牌/密码
+JENKINS_USER={{ jenkins_admin_username }}
+JENKINS_TOKEN={{ jenkins_admin_password }}
+
+{% if github_save_repo %}
+# 如果 github_save_repo 变量存在
+
+# Clone GitHub 仓库到指定目录
+GIT_REPO_DIR={{ repo_dir }}
+git config core.sshCommand "ssh -i /srv/id_rsa"
+git clone "{{ github_save_repo }}" "$GIT_REPO_DIR"
+
+# 设置 DEST_DIR 为克隆的仓库路径
+DEST_DIR="$GIT_REPO_DIR/jenkins"
+
+# 在仓库根目录下创建一个 jenkins 文件夹
+mkdir -p "$DEST_DIR"
+
+{% else %}
+# 如果 github_save_repo 变量不存在
+
+# 设置 DEST_DIR 为默认路径
+DEST_DIR="/srv/jenkins"
+
+# 确保目标目录存在
+mkdir -p "$DEST_DIR"
+
+{% endif %}
+
+# 获取所有作业的列表
+jobs=$(curl -s "$JENKINS_URL/api/json" --user $JENKINS_USER:$JENKINS_TOKEN | jq -r '.jobs[].name')
+
+# 下载每个作业的配置
+for job in $jobs; do
+    echo "Downloading configuration for job: $job"
+    curl -s "$JENKINS_URL/job/$job/config.xml" --user $JENKINS_USER:$JENKINS_TOKEN -o "$DEST_DIR/$job.xml"
+done
+
+echo "All jobs configurations downloaded."

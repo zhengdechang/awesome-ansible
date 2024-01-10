@@ -25,6 +25,11 @@
       - nodejs
 
   tasks:
+    - name: Set repo_dir fact based on github_save_repo
+      set_fact:
+        repo_dir: "/srv/{{ github_save_repo.split('/')[-1] }}"
+      when: github_save_repo is defined
+
     - name: Import java and jenkins roles
       include_role:
         name: "{{ item }}"

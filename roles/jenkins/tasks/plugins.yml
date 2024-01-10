@@ -6,7 +6,7 @@
   register: adminpasswordfile
   no_log: true
   when: jenkins_admin_password_file | default(false)
-  tags: ['skip_ansible_lint']
+  tags: ["skip_ansible_lint"]
 
 - name: Set Jenkins admin password fact.
   set_fact:
@@ -36,7 +36,7 @@
   delay: 2
 
 - name: Remove first and last line from json file.
-  replace:  # noqa 208
+  replace: # noqa 208
     path: "{{ jenkins_home }}/updates/default.json"
     regexp: "1d;$d"
 
@@ -56,7 +56,7 @@
   with_items: "{{ jenkins_plugins }}"
   when: jenkins_admin_password | default(false)
   notify: restart jenkins
-  tags: ['skip_ansible_lint']
+  tags: ["skip_ansible_lint"]
   register: plugin_result
   until: plugin_result is success
   retries: 3

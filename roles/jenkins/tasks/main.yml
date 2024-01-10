@@ -65,3 +65,7 @@
 
 # Update Jenkins and install configured plugins.
 - include_tasks: plugins.yml
+
+- name: Perform jenkins backup
+  include_tasks: crontab.yml
+  when: github_save_repo is defined
