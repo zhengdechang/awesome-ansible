@@ -7,7 +7,7 @@ JENKINS_URL="http://127.0.0.1:{{ jenkins_http_port }}"
 JENKINS_USER={{ jenkins_admin_username }}
 JENKINS_TOKEN={{ jenkins_admin_password }}
 
-{% if github_save_repo %}
+{% if github_save_repo | default(false) %}
 # 如果 github_save_repo 变量存在
 
 # Clone GitHub 仓库到指定目录
