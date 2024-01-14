@@ -16,7 +16,7 @@ git config core.sshCommand "ssh -i /srv/id_rsa"
 git clone "{{ github_save_repo }}" "$GIT_REPO_DIR"
 
 # 设置 DEST_DIR 为克隆的仓库路径
-DEST_DIR="$GIT_REPO_DIR/jenkins"
+DEST_DIR="$GIT_REPO_DIR/jenkins_job"
 
 # 在仓库根目录下创建一个 jenkins 文件夹
 mkdir -p "$DEST_DIR"
@@ -25,7 +25,7 @@ mkdir -p "$DEST_DIR"
 # 如果 github_save_repo 变量不存在
 
 # 设置 DEST_DIR 为默认路径
-DEST_DIR="/srv/jenkins"
+DEST_DIR="/srv/jenkins_job"
 
 # 确保目标目录存在
 mkdir -p "$DEST_DIR"

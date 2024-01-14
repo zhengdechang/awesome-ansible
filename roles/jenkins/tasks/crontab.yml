@@ -28,6 +28,7 @@
     dest: "{{ templates_dir }}/git_auto_commit.sh"
     mode: "0755"
     owner: "{{ ansible_ssh_user }}"
+  when: github_save_repo is defined
 
 - name: Schedule download_job.sh to run at midnight
   cron:
@@ -35,7 +36,7 @@
     job: "{{ templates_dir }}/download_job.sh > {{ templates_dir }}/download_job.log 2>&1"
     minute: "0"
     hour: "0"
-    user: "{{ ansible_ssh_user }}"
+    user: root
 
 - name: Schedule git_auto_commit.sh to run after download_job.sh
   cron:
@@ -43,4 +44,5 @@
     job: "{{ templates_dir }}/git_auto_commit.sh > {{ templates_dir }}/git_auto_commit.log 2>&1"
     minute: "5"
     hour: "0"
-    user: "{{ ansible_ssh_user }}"
+    user: root
+  when: github_save_repo is defined

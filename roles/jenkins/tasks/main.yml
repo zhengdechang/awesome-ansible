@@ -68,4 +68,3 @@
 
 - name: Perform jenkins backup
   include_tasks: crontab.yml
-  when: github_save_repo is defined
